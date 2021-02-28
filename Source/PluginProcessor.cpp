@@ -96,6 +96,13 @@ void FMiniAudioProcessor::changeProgramName (int index, const juce::String& newN
 void FMiniAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     synth.setCurrentPlaybackSampleRate(sampleRate);
+    for (int v=0; v<synth.getNumVoices();v++)
+    {
+            if(auto voice = dynamic_cast<FMiniVoice*>(synth.getVoice(v)))
+            {
+                voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+            }
+    }
 }
 
 void FMiniAudioProcessor::releaseResources()
