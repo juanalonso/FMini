@@ -13,8 +13,9 @@
 FMiniAudioProcessorEditor::FMiniAudioProcessorEditor (FMiniAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+
+    indexAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "IDX", indexSlider);
+    multAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "MULT", multSelector);
     setSize (400, 300);
 }
 

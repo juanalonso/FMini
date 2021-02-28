@@ -19,11 +19,12 @@ FMiniAudioProcessor::FMiniAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts (*this, nullptr, "Parameters", createParams())
 #endif
 {
     synth.addSound(new FMiniSound());
     synth.addVoice(new FMiniVoice());
+
 }
 
 FMiniAudioProcessor::~FMiniAudioProcessor()
@@ -188,4 +189,19 @@ void FMiniAudioProcessor::setStateInformation (const void* data, int sizeInBytes
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new FMiniAudioProcessor();
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout FMiniAudioProcessor::createParams()
+{
+    //Modulator index
+    
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+   
+    //Modulator index
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("IDX", "Index", juce::NormalisableRange<float>{0.0f, 10.0f, 1.0f}, 0.0f));
+
+    //Modulator mult
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("MULT", "Freq. mult", juce::StringArray{"x0.5", "x1", "x2"}, 1));
+
+    return {params.begin(), params.end()};
 }
