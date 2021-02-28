@@ -155,6 +155,14 @@ void FMiniAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
         }
     }
     
+    for (const juce::MidiMessageMetadata metadata: midiMessages)
+    {
+        if (metadata.numBytes==3)
+        {
+            juce::Logger::writeToLog(metadata.getMessage().getDescription());
+        }
+    }
+    
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     
 }
