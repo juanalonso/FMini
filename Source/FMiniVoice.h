@@ -24,6 +24,7 @@ public:
     void renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) override;
     
     void updateModulator(const float index, const float mult);
+    void updateADSR(const float attack, const float decay, const float sustain, const float release);
 
 
 private:

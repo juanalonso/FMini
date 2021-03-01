@@ -154,6 +154,12 @@ void FMiniAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
             auto& index = *apvts.getRawParameterValue("IDX");
             auto& mult = *apvts.getRawParameterValue("MULT");
             voice->updateModulator(index.load(), mult.load());
+
+            auto& attack = *apvts.getRawParameterValue("ATT");
+            auto& decay = *apvts.getRawParameterValue("DEC");
+            auto& sustain = *apvts.getRawParameterValue("SUS");
+            auto& release = *apvts.getRawParameterValue("REL");
+            voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
         }
     }
     
@@ -203,15 +209,17 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 juce::AudioProcessorValueTreeState::ParameterLayout FMiniAudioProcessor::createParams()
 {
-    //Modulator index
-    
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
    
-    //Modulator index
+    //FM
     params.push_back(std::make_unique<juce::AudioParameterFloat>("IDX", "Index", juce::NormalisableRange<float>{0.0f, 10.0f, 1.0f}, 0.0f));
-
-    //Modulator mult
     params.push_back(std::make_unique<juce::AudioParameterChoice>("MULT", "Freq. mult", juce::StringArray{"x0.5", "x1", "x2"}, 1));
+
+    //ADSR
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATT", "Attack", juce::NormalisableRange<float>{0.0f, 1.5f, 0.01f}, 0.2f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DEC", "Decay", juce::NormalisableRange<float>{0.0f, 1.5f, 0.01f}, 0.2f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUS", "Sustain", juce::NormalisableRange<float>{0.0f, 1.0f, 0.01f}, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("REL", "Release", juce::NormalisableRange<float>{0.0f, 1.5f, 0.01f}, 0.2f));
 
     return {params.begin(), params.end()};
 }

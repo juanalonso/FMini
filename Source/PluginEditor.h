@@ -32,6 +32,16 @@ private:
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> indexAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> multAttachment;
+    
+    juce::Slider attackSlider;
+    juce::Slider decaySlider;
+    juce::Slider sustainSlider;
+    juce::Slider releaseSlider;
+    
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attackAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> decayAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sustainAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> releaseAttachment;
 
     FMiniAudioProcessor& audioProcessor;
 

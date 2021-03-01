@@ -53,22 +53,28 @@ void FMiniVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     
     gain.setGainLinear(0.1f);
     
-    adsrParams.attack = 0.2f;
+    /*adsrParams.attack = 0.2f;
     adsrParams.decay = 0.1f;
     adsrParams.sustain = 0.5f;
     adsrParams.release = 0.2f;
-    adsr.setParameters(adsrParams);
+    adsr.setParameters(adsrParams);*/
     
     isPrepared = true;
 }
 
 void FMiniVoice::updateModulator(const float index, const float mult)
 {
+    //Right now, these values are not used
     vIndex = index;
     vMult = mult;
-    
-    //Only for this commit, to show the GUI <-> Processor <-> ValueTree is working
-    adsrParams.attack = index / 10.0f;
+}
+
+void FMiniVoice::updateADSR(const float attack, const float decay, const float sustain, const float release)
+{
+    adsrParams.attack = attack;
+    adsrParams.decay = decay;
+    adsrParams.sustain = sustain;
+    adsrParams.release = release;
     adsr.setParameters(adsrParams);
 }
 
