@@ -149,9 +149,11 @@ void FMiniAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::
 
     for (int v = 0; v < synth.getNumVoices(); v++)
     {
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(v)))
+        if (auto voice = dynamic_cast<FMiniVoice*>(synth.getVoice(v)))
         {
-            
+            auto& index = *apvts.getRawParameterValue("IDX");
+            auto& mult = *apvts.getRawParameterValue("MULT");
+            voice->updateModulator(index.load(), mult.load());
         }
     }
     

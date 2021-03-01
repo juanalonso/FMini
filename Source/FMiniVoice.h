@@ -22,12 +22,16 @@ public:
     void controllerMoved (int controllerNumber, int newControllerValue) override;
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) override;
+    
+    void updateModulator(const float index, const float mult);
+
 
 private:
     
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
     juce::AudioBuffer<float> synthBuffer;
+    float vIndex, vMult;
     
     juce::dsp::Oscillator<float> osc {
         [](float x){

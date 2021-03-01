@@ -23,8 +23,9 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-
+    
 private:
+    void setSliderParams(juce::Slider& slider);
 
     juce::ComboBox multSelector;
     juce::Slider indexSlider;

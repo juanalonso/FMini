@@ -62,6 +62,16 @@ void FMiniVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     isPrepared = true;
 }
 
+void FMiniVoice::updateModulator(const float index, const float mult)
+{
+    vIndex = index;
+    vMult = mult;
+    
+    //Only for this commit, to show the GUI <-> Processor <-> ValueTree is working
+    adsrParams.attack = index / 10.0f;
+    adsr.setParameters(adsrParams);
+}
+
 void FMiniVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples)
 {
     jassert(isPrepared);

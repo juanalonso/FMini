@@ -14,9 +14,13 @@ FMiniAudioProcessorEditor::FMiniAudioProcessorEditor (FMiniAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
 
+    setSize (400, 300);
+    
     indexAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "IDX", indexSlider);
     multAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "MULT", multSelector);
-    setSize (400, 300);
+
+    setSliderParams(indexSlider);
+    
 }
 
 FMiniAudioProcessorEditor::~FMiniAudioProcessorEditor()
@@ -26,16 +30,28 @@ FMiniAudioProcessorEditor::~FMiniAudioProcessorEditor()
 //==============================================================================
 void FMiniAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    //g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void FMiniAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    const auto padding = 20;
+    const auto bounds = getLocalBounds().reduced(padding);
+    const auto sliderWidth = bounds.getWidth();
+    const auto sliderHeight = 45;
+    const auto sliderStartX = padding;
+    const auto sliderStartY = padding;
+    
+    indexSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
+}
+
+void FMiniAudioProcessorEditor::setSliderParams(juce::Slider& slider)
+{
+    slider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+    slider.setTextBoxStyle(juce::Slider::TextBoxRight, true, 50, 25);
+    addAndMakeVisible(slider);
 }
